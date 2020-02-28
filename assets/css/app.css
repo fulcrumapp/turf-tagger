@@ -1,0 +1,17 @@
+html {
+  height: 100%;
+}
+body {
+  padding-top: 56px;
+  height: 100%;
+}
+.navbar-brand {
+  font-weight: bold;
+}
+.leaflet-control-layers label {
+  margin-bottom: unset;
+}
+#map {
+  height: 100%;
+  width: 100%;
+}

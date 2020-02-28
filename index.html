@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="This application takes a set of points and a set of polygons and performs a spatial join.">
+    <meta name="author" content="Bryan McBride">
+    <title>Turf Tagger</title>
+    <link href="assets/vendor/bootstrap-4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/leaflet-1.6.0/leaflet.css" rel="stylesheet">
+    <link href="assets/vendor/leaflet-locatecontrol-0.70.0/L.Control.Locate.min.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome-free-5.12.1-web/css/all.min.css" rel="stylesheet">
+    <link href="assets/vendor/leaflet-geoman-2.4.0/leaflet-geoman.css" rel="stylesheet">
+    <link href="assets/css/app.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <span class="navbar-brand">Turf Tagger</span>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#info-modal"><i class="fas fa-info-circle"></i></a>
+          </li>
+        </ul>
+        <form class="form-inline">
+          <button class="btn btn-light mr-3" type="button" onclick="polygonInput.click();">Load Polygons (GeoJSON)</button>
+          <button class="btn btn-light mr-3" type="button" onclick="pointInput.click();">Load Points (GeoJSON, CSV)</button>
+          <div class="btn-group mr-3">
+            <button type="button" class="btn btn-primary" onclick="tagPoints();">Tag Points</button>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#" id="geojson-download" onclick="downloadFile('geojson'); return false;">Download GeoJSON</a>
+              <a class="dropdown-item" href="#" id="csv-download" onclick="downloadFile('csv'); return false;">Download CSV</a>
+            </div>
+          </div>
+          <button class="btn btn-danger mr-3" type="button" onclick="clearFeatures();">Clear Features</button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="modal" tabindex="-1" role="dialog" id="info-modal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Welcome to Turf Tagger!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body"> 
+            <p>This application takes a set of <strong>points</strong> and a set of <strong>polygons</strong> and performs a <strong><i>spatial join</i></strong>. Points will be tagged with the properties of the polygon they are inside of.</p>
+            <p>This is useful for associating location lists with sales territories, work zones, or canvassing turfs.</p>
+            <p>
+              <ol>
+                <li>Load a polygon file (GeoJSON) or draw polygons using the buttons on the toolbar.</li>
+                <li>Load a point file (GeoJSON or CSV).</li>
+                <li>Click the <span class="text-primary">Tag Points</span> button.</li>
+                <li>Click the dropdown to download tagged points.</li>
+              </ol>
+            </p>
+            <p>
+              How it works:
+              <ul>
+                <li>100% client-side processing (nothing uploaded to server).</li>
+                <li>Local files are displayed on a <a href="https://leafletjs.com/" target="_blank">Leaflet</a> map using the <a href="https://developer.mozilla.org/en/docs/Web/API/FileReader" target="_blank">FileReader Web API</a>.</li>
+                <li>The <a href="https://turfjs.org/" target="_blank">Turf.js</a> geospatial library <a href="https://turfjs.org/docs/#tag" target="_blank">tag</a> module is used to perform the spatial join.</li>
+              </ul>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main role="main" class="container-fluid" id="map"></main>
+
+    <script src="assets/vendor/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="assets/vendor/popper.js-1.15.0/umd/popper.min.js"></script>
+    <script src="assets/vendor/bootstrap-4.4.1/js/bootstrap.min.js"></script>
+    <script src="assets/vendor/leaflet-1.6.0/leaflet.js"></script>
+    <script src="assets/vendor/leaflet-locatecontrol-0.70.0/L.Control.Locate.min.js"></script>
+    <script src="assets/vendor/leaflet-geoman-2.4.0/leaflet-geoman.min.js"></script>
+    <script src="assets/vendor/leaflet-circletopolygon-0.2/leaflet.circle.topolygon-min.js"></script>
+    <script src="assets/vendor/turf-5.1.6/turf-tag.min.js"></script>
+    <script src="assets/vendor/FileSaver.js-2.0.2/FileSaver.min.js"></script>
+    <script src="assets/vendor/csv2geojson-5.1.1/csv2geojson.js"></script>
+    <script src="assets/vendor/geojson2dsv-0.1.0/geojson2dsv.js"></script>
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>
